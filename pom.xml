@@ -8,6 +8,10 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>demo</name>
 
+	<properties>
+		<java.version>23</java.version>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
