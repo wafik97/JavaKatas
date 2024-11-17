@@ -21,6 +21,7 @@ jobs:
         working-directory: src/test/java/katas/exercises
         run: |
           kata_json=$(find . -name '*Test.java' | jq -R -s -c 'split("\n")[:-1]')
+          echo $katas_json
           echo "tests=$kata_json" >> $GITHUB_OUTPUT
 
   Test:
