@@ -20,7 +20,7 @@ jobs:
         id: kata_tests
         working-directory: src/test/java/katas/exercises
         run: |
-          kata_json=$(ls *Test.java | jq -R -s -c 'split("\n")[:-1]')
+          kata_json=$(ls *Test.java | jq -R -s -c 'split("\n")[:-1] | map(sub("Test.java$"; ""))')
           echo "Katas: $kata_json"
           echo "tests=$kata_json" >> $GITHUB_OUTPUT
 
@@ -53,7 +53,7 @@ jobs:
       - name: Run Unit Tests
         run: |
           echo "Testing file: ${{ matrix.kata_name }}"
-          mvn -Dtest=${{ matrix.kata_name }} test
+          mvn -Dtest=${{ matrix.kata_name }}Test.java test
 
   StoreTestId:
     needs: Test
