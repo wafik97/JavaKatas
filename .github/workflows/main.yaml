@@ -25,7 +25,7 @@ jobs:
           echo "tests=$kata_json" >> $GITHUB_OUTPUT
 
   Test:
-    needs: ListKatas
+    needs: PreTest-ListKatas
     runs-on: ubuntu-latest
     name: ${{ matrix.kata_name }}
     strategy:
@@ -53,7 +53,7 @@ jobs:
       - name: Run Unit Tests
         run: |
           echo "Testing file: ${{ matrix.kata_name }}"
-          mvn -Dtest=${{ matrix.kata_name }}Test.java test
+          mvn -q -Dtest=${{ matrix.kata_name }}Test.java test
 
   PostTest-StoreTestId:
     needs: Test
