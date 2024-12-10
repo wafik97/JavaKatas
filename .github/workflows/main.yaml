@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  PreTest-ListKatas:
+  PreTestListKatas:
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.kata_tests.outputs.tests }}
@@ -25,13 +25,13 @@ jobs:
           echo "tests=$kata_json" >> $GITHUB_OUTPUT
 
   Test:
-    needs: PreTest-ListKatas
+    needs: PreTestListKatas
     runs-on: ubuntu-latest
     name: ${{ matrix.kata_name }}
     strategy:
       fail-fast: false
       matrix:
-        kata_name: ${{ fromJson(needs.ListKatas.outputs.tests) }}
+        kata_name: ${{ fromJson(needs.PreTestListKatas.outputs.tests) }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -55,7 +55,7 @@ jobs:
           echo "Testing file: ${{ matrix.kata_name }}"
           mvn -q -Dtest=${{ matrix.kata_name }}Test.java test
 
-  PostTest-StoreTestId:
+  PostTestStoreTestId:
     needs: Test
     runs-on: ubuntu-latest
     if: always()
