@@ -16,17 +16,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: List Katas to Test
+      - name: List Katas
         id: kata_tests
         working-directory: src/test/java/katas/exercises
         run: |
-          kata_json=$(find . -name '*Test.java' -exec basename {} \; | jq -R -s -c 'split("\n")[:-1]')
-          echo $kata_json
+          kata_json=$(ls *Test.java | jq -R -s -c 'split("\n")[:-1]')
+          echo "Katas: $kata_json"
           echo "tests=$kata_json" >> $GITHUB_OUTPUT
 
   Test:
     needs: ListKatas
     runs-on: ubuntu-latest
+    name: ${{ matrix.kata_name }}
     strategy:
       fail-fast: false
       matrix:
