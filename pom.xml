@@ -6,7 +6,7 @@
 	<groupId>katas</groupId>
 	<artifactId>exercises</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
+	<name>katas</name>
 
 	<properties>
 		<maven.compiler.source>23</maven.compiler.source>
