@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  ListKatas:
+  PreTest-ListKatas:
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.kata_tests.outputs.tests }}
@@ -27,7 +27,7 @@ jobs:
   Test:
     needs: ListKatas
     runs-on: ubuntu-latest
-    name: Test - ${{ matrix.kata_name }}
+    name: ${{ matrix.kata_name }}
     strategy:
       fail-fast: false
       matrix:
@@ -55,7 +55,7 @@ jobs:
           echo "Testing file: ${{ matrix.kata_name }}"
           mvn -Dtest=${{ matrix.kata_name }}Test.java test
 
-  StoreTestId:
+  PostTest-StoreTestId:
     needs: Test
     runs-on: ubuntu-latest
     if: always()
