@@ -9,7 +9,18 @@ public class ArrayDifference {
      * @return the difference between the largest and smallest numbers
      */
     public static int findDifference(int[] numbers) {
-        return 0;
+        int max=numbers[0],min=numbers[0];
+
+        for(int i=1;i<numbers.length;i++){
+            if(numbers[i]>max){
+                max=numbers[i];
+            }
+            if(numbers[i]<min){
+                min=numbers[i];
+            }
+        }
+        return max-min;
+
     }
 
     public static void main(String[] args) {
