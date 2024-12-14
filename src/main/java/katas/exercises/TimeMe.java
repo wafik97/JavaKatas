@@ -10,7 +10,12 @@ public class TimeMe {
      */
     public static long measureExecutionTime(Runnable func) {
         //hint:  System.currentTimeMillis();
-        return 0;
+        long start,end;
+         start=System.currentTimeMillis();
+        func.run();
+         end=System.currentTimeMillis();
+
+        return end-start;
     }
 
     public static void main(String[] args) {

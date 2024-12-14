@@ -2,6 +2,8 @@ package katas.exercises;
 
 import java.util.HashSet;
 
+import static java.lang.System.exit;
+
 public class UniqueString {
 
     /**
@@ -11,6 +13,27 @@ public class UniqueString {
      * @return true if all characters are unique, false otherwise
      */
     public static boolean isUnique(String str) {
+
+
+        str=str.toLowerCase();
+
+        int[] smallLetters = new int[26];
+        for(int i=0;i<26;i++){
+
+            smallLetters[i]=0;
+        }
+
+
+        for(int i=0;i<str.length();i++){
+
+
+            smallLetters[str.charAt(i)-'a']++;
+            if(smallLetters[str.charAt(i)-'a']>1){
+                return false;
+            }
+
+        }
+
         return true;
     }
 

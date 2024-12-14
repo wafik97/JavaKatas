@@ -9,7 +9,9 @@ public class DoNTimes {
      * @param n    the number of times to execute the function
      */
     public static void doNTimes(Runnable func, int n) {
-
+        for(int i=0;i<n;i++){
+            func.run();
+        }
     }
 
     public static void main(String[] args) {

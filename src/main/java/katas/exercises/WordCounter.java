@@ -9,7 +9,14 @@ public class WordCounter {
      * @return the number of words in the sentence
      */
     public static int countWords(String sentence) {
-        return 0;
+        if(sentence.equals("")){
+            return 0;
+        }
+        String[] tokens = sentence.split(" ");
+
+
+        return tokens.length;
+
     }
 
     public static void main(String[] args) {

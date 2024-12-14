@@ -13,7 +13,23 @@ public class ListFlatten {
      */
     public static List<Integer> flattenList(List<Object> nestedList) {
         // hint: instanceof
-        return new ArrayList<>();
+
+        List<Integer> flatList = new ArrayList<>();
+
+        for (Object element : nestedList) {
+            if (element instanceof Integer) {
+                flatList.add((Integer) element);
+            }
+            else if (element instanceof List) {
+                List<Integer> getNumbersFrom = flattenList((List<Object>)element);
+
+                flatList.addAll(getNumbersFrom);
+            }
+        }
+
+        return flatList;
+
+
     }
 
     public static void main(String[] args) {
