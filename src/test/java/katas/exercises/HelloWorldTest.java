@@ -7,7 +7,7 @@ public class HelloWorldTest {
 
     @Test
     public void testHelloWorld() {
-        String result = HelloWorld.helloWorld();
-        assertEquals("hello world", result, "The helloWorld method should return 'hello world'");
+
+        assertEquals("hello world", HelloWorld.helloWorld(), "The helloWorld method should return 'hello world'");
     }
 }
