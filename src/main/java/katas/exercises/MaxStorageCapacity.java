@@ -20,8 +20,43 @@ public class MaxStorageCapacity {
      * @return the area of the largest rectangle formed between containers
      */
     public static int maxStorageArea(int[] containers) {
-        // Hint for efficient implementation: stack
-        return 0;
+
+        int width;
+        int maxArea = 0;
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = 0; i < containers.length; i++) {
+            while (!stack.isEmpty() && containers[stack.peek()] > containers[i]) {
+                int height = containers[stack.pop()];
+                width = stack.isEmpty() ? i : i - stack.peek() - 1;
+                if(maxArea<height * width){
+                    maxArea=height * width;
+                }
+            }
+            stack.push(i);
+        }
+
+
+
+        while (!stack.isEmpty()) {
+            int height = containers[stack.pop()];
+            if(stack.isEmpty()){
+                width=containers.length;
+            }
+            else {
+                width=containers.length - stack.peek() - 1;
+            }
+
+            if(maxArea<height * width){
+                maxArea=height * width;
+            }
+        }
+
+
+
+        return maxArea;
+
+
     }
 
     public static void main(String[] args) {

@@ -1,8 +1,6 @@
 package katas.exercises;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ValidGitTree {
 
@@ -17,7 +15,38 @@ public class ValidGitTree {
      * @return true if the tree is a valid Git tree, false otherwise
      */
     public static boolean isValidGitTree(Map<String, List<String>> treeMap) {
-        return false;
+
+        Set<String> allNodes = new HashSet<>(treeMap.keySet());
+        Set<String> childrenNodes = new HashSet<>();
+
+        for (List<String> children : treeMap.values()) {
+            childrenNodes.addAll(children);
+        }
+        allNodes.removeAll(childrenNodes);
+        if (allNodes.size() != 1) {
+            return false;
+        }
+        String root = allNodes.iterator().next();
+
+
+        Set<String> visited = new HashSet<>();
+        Queue<String> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            String current = queue.poll();
+            if (visited.contains(current)) {
+                return false;
+            }
+            visited.add(current );
+            for (String child : treeMap.getOrDefault(current , Collections.emptyList())) {
+                queue.add( child );
+            }
+        }
+
+        return visited.size() == treeMap.size();
+
+
     }
 
     public static void main(String[] args) {
