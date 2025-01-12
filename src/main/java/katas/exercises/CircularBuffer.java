@@ -21,6 +21,11 @@ public class CircularBuffer {
      */
     public CircularBuffer(int capacity) {
 
+        this.buffer =new int[capacity];
+        this.head=0;
+        this.tail=0;
+        this.size=capacity;
+
     }
 
     /**
@@ -30,6 +35,22 @@ public class CircularBuffer {
      */
     public void add(int val) {
 
+        if(isFull()){
+
+            buffer[head]=val;
+            tail=head;
+            head=(head+1)%size;
+
+        }
+        else {
+
+            tail=(tail+1)%size;
+            buffer[tail]=val;
+
+        }
+
+
+
     }
 
     /**
@@ -38,8 +59,10 @@ public class CircularBuffer {
      * @return the oldest element, or -1 if the buffer is empty
      */
     public int get() {
-
+        if(isEmpty()){
         return -1;
+        }
+        else return buffer[head];
     }
 
     /**
@@ -49,7 +72,7 @@ public class CircularBuffer {
      */
     public boolean isFull() {
 
-        return false;
+        return head - tail == 1 || tail - head == size - 1;
     }
 
     /**
@@ -59,7 +82,7 @@ public class CircularBuffer {
      */
     public boolean isEmpty() {
 
-        return false;
+        return head == tail;
     }
 
     public static void main(String[] args) {

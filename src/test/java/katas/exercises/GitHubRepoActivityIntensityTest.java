@@ -3,6 +3,7 @@ package katas.exercises;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.Instant;
 import java.util.List;
 
@@ -23,6 +24,9 @@ public class GitHubRepoActivityIntensityTest {
         double averageTime = GitHubRepoActivityIntensity.calculateAverageTimeBetweenCommits(mockTimestamps);
     }
 
+
+    /*
+
     @Test
     void testFetchCommitTimestamps() throws Exception {
         HttpURLConnection mockConnection = mock(HttpURLConnection.class);
@@ -31,5 +35,5 @@ public class GitHubRepoActivityIntensityTest {
         when(mockConnection.getResponseCode()).thenReturn(200);
 
         // continue....
-    }
+    }*/
 }

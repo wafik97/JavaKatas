@@ -1,6 +1,7 @@
 package katas.exercises;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RoundRobinLoadBalancer {
@@ -24,6 +25,9 @@ public class RoundRobinLoadBalancer {
      */
     public RoundRobinLoadBalancer() {
 
+        servers =new ArrayList<IP>();
+        currentIndex =0;
+
     }
 
     /**
@@ -32,6 +36,8 @@ public class RoundRobinLoadBalancer {
      * @param server the IP object representing the server to add
      */
     public void addServer(IP server) {
+
+        servers.add(server);
 
     }
 
@@ -42,6 +48,12 @@ public class RoundRobinLoadBalancer {
      */
     public void removeServer(IP server) {
 
+        if(servers.indexOf(server)<currentIndex){
+            currentIndex--;
+        }
+
+        servers.remove(server);
+
     }
 
     /**
@@ -51,7 +63,65 @@ public class RoundRobinLoadBalancer {
      */
     public IP routeRequest() {
 
+        currentIndex=(currentIndex+1)% servers.size();
+
+        return servers.get(currentIndex);
+
     }
+
+
+    /**
+     * Represents an IP address.
+     */
+    static class IP {
+        private final String address;
+
+        /**
+         * Constructor to initialize an IP address.
+         *
+         * @param address the IP address as a string
+         */
+        public IP(String address) {
+            if (!isValidIP(address)) {
+                throw new IllegalArgumentException("Invalid IP address: " + address);
+            }
+
+            this.address=address;
+        }
+
+        /**
+         * Validates an IPv4 address.
+         *
+         * @param address the IP address to validate
+         * @return true if the address is valid, false otherwise
+         */
+        private static boolean isValidIP(String address) {
+
+            String form = "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." + "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
+                            "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
+            return address.matches(form);
+
+        }
+
+        @Override
+        public String toString() {
+            return address;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (obj == null || getClass() != obj.getClass()) return false;
+            IP ip = (IP) obj;
+            return address.equals(ip.address);
+        }
+
+        @Override
+        public int hashCode() {
+            return address.hashCode();
+        }
+    }
+
 
     public static void main(String[] args) {
         RoundRobinLoadBalancer loadBalancer = new RoundRobinLoadBalancer();
@@ -71,51 +141,7 @@ public class RoundRobinLoadBalancer {
         System.out.println("Routing to: " + loadBalancer.routeRequest());
     }
 
-    /**
-     * Represents an IP address.
-     */
-    class IP {
-        private final String address;
 
-        /**
-         * Constructor to initialize an IP address.
-         *
-         * @param address the IP address as a string
-         */
-        public IP(String address) {
-            if (!isValidIP(address)) {
-                throw new IllegalArgumentException("Invalid IP address: " + address);
-            }
-        }
-
-        /**
-         * Validates an IPv4 address.
-         *
-         * @param address the IP address to validate
-         * @return true if the address is valid, false otherwise
-         */
-        private static boolean isValidIP(String address) {
-
-        }
-
-        @Override
-        public String toString() {
-            return address;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) return true;
-            if (obj == null || getClass() != obj.getClass()) return false;
-            IP ip = (IP) obj;
-            return address.equals(ip.address);
-        }
-
-        @Override
-        public int hashCode() {
-
-        }
-    }
 
 }
 

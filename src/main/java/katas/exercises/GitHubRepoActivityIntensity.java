@@ -1,9 +1,16 @@
 package katas.exercises;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Instant;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,10 +44,42 @@ public class GitHubRepoActivityIntensity {
      */
     public static List<Instant> fetchCommitTimestamps(String owner, String repo) throws Exception {
         // example:
+        /*
         URL url = new URL("...");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
+        conn.setRequestProperty("Accept", "application/vnd.github+json");*/
+
+        List<Instant> timestamps = new ArrayList<>();
+        URL url = new URL(GITHUB_API_BASE_URL+"/"+owner+"/"+repo+"/commits");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/vnd.github+json");
+
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+        StringBuilder response = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            response.append(line);
+        }
+        reader.close();
+
+
+        JSONArray commitsArray = new JSONArray(response.toString());
+        for (int i = 0; i < commitsArray.length(); i++) {
+            JSONObject commitObject = commitsArray.getJSONObject(i);
+            JSONObject commitDetails = commitObject.getJSONObject("commit");
+            JSONObject committer = commitDetails.getJSONObject("author");
+            String date = committer.getString("date");
+            Instant commitTimestamp = Instant.from(DateTimeFormatter.ISO_INSTANT.parse(date));
+            timestamps.add(commitTimestamp);
+
+        }
+
+        return timestamps ;
+
     }
 
     /**
@@ -50,6 +89,25 @@ public class GitHubRepoActivityIntensity {
      * @return the average time in hours
      */
     public static double calculateAverageTimeBetweenCommits(List<Instant> timestamps) {
+
+        if (timestamps.size()<2) {
+            return 0;
+        }
+
+        long total = 0;
+        double average ;
+
+        for (int i = 1; i < timestamps.size(); i++) {
+            long timeDif = timestamps.get(i-1).toEpochMilli() - timestamps.get(i).toEpochMilli();
+            total += timeDif;
+        }
+
+        average = total / (double) (timestamps.size() - 1)/ (double) (3600000);
+
+
+
+        return average;
+
 
     }
 

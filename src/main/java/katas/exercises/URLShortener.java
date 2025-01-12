@@ -18,10 +18,14 @@ public class URLShortener {
     private Map<String, String> urlMap;
     private static final String BASE_URL = "http://short.ly/";
 
+
+    private String BASE62 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
     /**
      * Constructor to initialize the URL shortener system.
      */
     public URLShortener() {
+
         urlMap = new HashMap<>();
     }
 
@@ -33,7 +37,27 @@ public class URLShortener {
      */
     public String shorten(String longUrl) {
         // Implement logic to shorten the URL
-        return null;
+        String my_short="";
+        if(urlMap.isEmpty()){
+            urlMap.put(BASE_URL+"a",longUrl);
+            return BASE_URL+"a";
+        }
+        else{
+            int size= urlMap.size();
+
+            while (size>0){
+
+                my_short=BASE62.charAt(size%62)+my_short;
+
+                size/=62;
+
+
+            }
+
+            urlMap.put(BASE_URL+my_short,longUrl);
+        }
+
+        return BASE_URL+my_short;
     }
 
     /**
@@ -43,6 +67,7 @@ public class URLShortener {
      * @return the original long URL
      */
     public String retrieve(String shortUrl) {
+
         return urlMap.get(shortUrl); // Implement logic to retrieve long URL
     }
 
@@ -52,8 +77,15 @@ public class URLShortener {
         String longUrl = "https://www.example.com/some/really/long/url";
         String shortUrl = shortener.shorten(longUrl);
 
+        String longUrl1 = "https://www.example.com/some/really/long6565/url";
+        String shortUrl1 = shortener.shorten(longUrl1);
+
         System.out.println("Shortened URL: " + shortUrl);
         System.out.println("Original URL: " + shortener.retrieve(shortUrl));
+        System.out.println("Shortened URL: " + shortUrl1);
+        System.out.println("Original URL: " + shortener.retrieve(shortUrl1));
+
+
     }
 }
 

@@ -1,5 +1,10 @@
 package katas.exercises;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class OrderedMap<K, V> {
     /**
      * Implement an OrderedMap data structure that behaves like a regular map (dictionary) but maintains the
@@ -11,7 +16,15 @@ public class OrderedMap<K, V> {
      * The order should be preserved as the keys are added to the map.
      */
 
+    private Map<K, V> myMap;
+    private List<K> order;
+
+
+
+
     public OrderedMap() {
+        this.myMap=new HashMap<>();
+        this.order=new ArrayList<>();
 
     }
 
@@ -20,7 +33,18 @@ public class OrderedMap<K, V> {
          * Add a key-value pair to the map.
          * If the key already exists, update its value while preserving the order.
          */
-        throw new UnsupportedOperationException("Not implemented yet.");
+       // throw new UnsupportedOperationException("Not implemented yet.");
+
+
+        if( !myMap.containsKey(key)){
+          order.addLast(key);
+          myMap.put(key,value);
+        }
+
+
+
+
+
     }
 
     public V get(K key) {
@@ -30,7 +54,10 @@ public class OrderedMap<K, V> {
          * @param key: The key whose value is to be retrieved.
          * @return: The value associated with the key, or null if the key does not exist.
          */
-        throw new UnsupportedOperationException("Not implemented yet.");
+       // throw new UnsupportedOperationException("Not implemented yet.");
+
+        return myMap.get(key);
+
     }
 
     public void remove(K key) {
@@ -39,7 +66,11 @@ public class OrderedMap<K, V> {
          *
          * @param key: The key to be removed.
          */
-        throw new UnsupportedOperationException("Not implemented yet.");
+
+        myMap.remove(key);
+        order.remove(key);
+
+
     }
 
     public List<K> keys() {
@@ -48,7 +79,9 @@ public class OrderedMap<K, V> {
          *
          * @return: A list of keys in insertion order.
          */
-        throw new UnsupportedOperationException("Not implemented yet.");
+
+
+        return order;
     }
 
     public int size() {
@@ -57,14 +90,20 @@ public class OrderedMap<K, V> {
          *
          * @return: The size of the map.
          */
-        throw new UnsupportedOperationException("Not implemented yet.");
+      //  throw new UnsupportedOperationException("Not implemented yet.");
+
+        return order.size();
+
     }
 
     public void clear() {
         /**
          * Remove all key-value pairs from the map.
          */
-        throw new UnsupportedOperationException("Not implemented yet.");
+        //throw new UnsupportedOperationException("Not implemented yet.");
+        order.clear();
+        myMap.clear();
+
     }
 
     public static void main(String[] args) {
