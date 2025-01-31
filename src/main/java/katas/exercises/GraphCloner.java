@@ -23,8 +23,50 @@ class GraphCloner {
      * @return the starting node of the cloned graph
      */
     public static Node cloneGraph(Node node) {
-        return null;
+
+        if(node==null){
+            return null;
+        }
+
+        Node head=new Node(node.val);
+        Map<Integer,Node> have = new HashMap<>();
+        ArrayList<Integer> visited = new ArrayList<Integer>();
+
+        have.put(head.val, head);
+        cloneGraph_aux( node,  head ,have,  visited);
+
+
+        return head;
     }
+
+    public static void cloneGraph_aux(Node old, Node my_new, Map<Integer,Node> have,  ArrayList<Integer> visited) {
+
+        if (old == null || visited.contains(old.val)) return;
+        visited.add(old.val);
+
+
+
+        for (Node neighbor : old.neighbors) {
+            Node addNew;
+            if(!have.containsKey(neighbor.val)){
+                addNew =new Node(neighbor.val);
+                have.put(neighbor.val,addNew);
+            }
+            else {
+                addNew=have.get(neighbor.val);
+            }
+            my_new.neighbors.add(addNew);
+            cloneGraph_aux( neighbor,  addNew,have,  visited);
+        }
+
+
+        return ;
+    }
+
+
+
+
+
 
     public static void main(String[] args) {
         Node node1 = new Node(1);

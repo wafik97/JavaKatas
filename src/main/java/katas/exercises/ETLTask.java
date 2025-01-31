@@ -79,7 +79,7 @@ public class ETLTask {
             ResultSet rs = sourceStmt.executeQuery("SELECT * FROM users");
 
 
-            // TODO ....
+            System.out.println(rs);
         }
     }
 

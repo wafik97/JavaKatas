@@ -1,5 +1,7 @@
 package katas.exercises;
 
+import java.util.ArrayList;
+
 /**
  * find the median of a stream of integers.
  *
@@ -16,7 +18,13 @@ public class MedianFinder {
     /**
      * Initializes the MedianFinder object.
      */
+
+    ArrayList<Integer> nums ;
+
+
     public MedianFinder() {
+
+        nums = new ArrayList<Integer>();
 
     }
 
@@ -27,7 +35,28 @@ public class MedianFinder {
      */
     public void addNum(int num) {
 
+        nums.add(findPlace(num),num);
+
+
     }
+
+    public int findPlace(int num) {
+        int low = 0, high = nums.size();
+
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+
+            if (nums.get(mid) >= num) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return low;
+    }
+
+
+
 
     /**
      * Finds and returns the median of the data stream.
@@ -35,8 +64,19 @@ public class MedianFinder {
      * @return the median as a double
      */
     public double findMedian() {
+        int mid1,mid2;
+        if(nums.size()%2==0){
+            mid1= nums.get(nums.size()/2-1);
+            mid2= nums.get(nums.size()/2);
+            return (double) (mid1 + mid2) /2;
+        }
+        else{
 
-        return 0.0;
+            return nums.get(nums.size()/2);
+        }
+
+
+
     }
 
     public static void main(String[] args) {

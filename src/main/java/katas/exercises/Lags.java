@@ -46,8 +46,44 @@ public class Lags {
      * @return the maximum profit
      */
     public static int maximizeProfit(List<Request> requests) {
-        return 0;
+
+        int max=0;
+        max=maximizeProfit_aux(requests, 0, 0, 0);
+        return max;
     }
+
+    public static int maximizeProfit_aux(List<Request> requests,int index,int max,int time) {
+
+        if(index== requests.size()){
+            return max ;
+        }
+        int max1,max2;
+        Request curr = requests.get(index);
+        int endTime= curr.startTime+ curr.duration;
+        int nextIndex=1;
+
+        // find next one if we used this drone
+        while(index+nextIndex< requests.size()){
+            if(requests.get(index+nextIndex).startTime<endTime){
+                nextIndex++;
+            }
+            else {
+                break;
+            }
+        }
+
+
+
+        // with
+        max1=maximizeProfit_aux(requests, index+nextIndex, max+ curr.payment, curr.startTime+ curr.duration);
+
+        // without
+        max2=maximizeProfit_aux( requests, index+1, max, time);
+
+
+        return Math.max(max1, max2);
+    }
+
 
     public static void main(String[] args) {
         List<Request> requests = new ArrayList<>();
